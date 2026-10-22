@@ -1,9 +1,9 @@
 import { Hono } from 'hono'
-import { messageListQuerySchema, messageUpdateSchema } from '../../shared'
-import type { AppEnv } from '../types'
-import { ok } from '../lib/http'
-import { parseJson, parseQuery } from '../lib/validate'
-import { deleteMessage, listMessages, markMessageRead } from '../services/message-service'
+import { messageListQuerySchema, messageUpdateSchema } from '../../shared/index.js'
+import type { AppEnv } from '../types.js'
+import { ok } from '../lib/http.js'
+import { parseJson, parseQuery } from '../lib/validate.js'
+import { deleteMessage, listMessages, markMessageRead } from '../services/message-service.js'
 
 export const adminMessageRoutes = new Hono<AppEnv>()
 

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { PAGE_SIZE_DEFAULT, PAGE_SIZE_MAX } from '../constants'
+import { PAGE_SIZE_DEFAULT, PAGE_SIZE_MAX } from '../constants.js'
 
 export const uuidSchema = z.string().uuid('ID 格式不正确')
 

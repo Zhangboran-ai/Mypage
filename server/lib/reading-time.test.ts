@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { countWords, toReadingTime } from './reading-time'
+import { countWords, toReadingTime } from './reading-time.js'
 
 describe('countWords', () => {
   it('统计中文字符与英文单词', () => {

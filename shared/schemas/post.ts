@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { CONTENT_STATUSES } from '../constants'
-import { isoDateTimeSchema, paginationQuerySchema, slugOptionalSchema } from './common'
+import { CONTENT_STATUSES } from '../constants.js'
+import { isoDateTimeSchema, paginationQuerySchema, slugOptionalSchema } from './common.js'
 
 const nullableUrlSchema = z.string().url('请输入合法链接').nullable().optional()
 

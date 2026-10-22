@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { buildPaginationMeta, getPagination } from './pagination'
+import { buildPaginationMeta, getPagination } from './pagination.js'
 
 describe('getPagination', () => {
   it('第一页从 0 开始', () => {

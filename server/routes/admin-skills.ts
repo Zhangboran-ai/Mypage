@@ -1,8 +1,8 @@
 import { Hono } from 'hono'
-import { reorderSchema, skillCategoryInputSchema, skillInputSchema } from '../../shared'
-import type { AppEnv } from '../types'
-import { ok, okWithStatus } from '../lib/http'
-import { parseJson } from '../lib/validate'
+import { reorderSchema, skillCategoryInputSchema, skillInputSchema } from '../../shared/index.js'
+import type { AppEnv } from '../types.js'
+import { ok, okWithStatus } from '../lib/http.js'
+import { parseJson } from '../lib/validate.js'
 import {
   createSkill,
   createSkillCategory,
@@ -12,7 +12,7 @@ import {
   reorderSkills,
   updateSkill,
   updateSkillCategory,
-} from '../services/skill-service'
+} from '../services/skill-service.js'
 
 export const adminSkillRoutes = new Hono<AppEnv>()
 

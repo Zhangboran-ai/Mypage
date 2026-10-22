@@ -6,10 +6,10 @@ import {
   REMEMBER_TTL_SECONDS,
   SESSION_COOKIE_NAME,
   SESSION_TTL_SECONDS,
-} from '../../shared/constants'
-import { sessions, users } from '../../db/schema'
-import { env } from '../env'
-import { db } from './db'
+} from '../../shared/constants.js'
+import { sessions, users } from '../../db/schema.js'
+import { env } from '../env.js'
+import { db } from './db.js'
 
 export function generateSessionToken(): string {
   return randomBytes(32).toString('base64url')

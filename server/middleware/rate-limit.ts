@@ -1,8 +1,8 @@
 import { and, eq, gte, sql } from 'drizzle-orm'
-import { LOGIN_MAX_ATTEMPTS, LOGIN_WINDOW_MINUTES } from '../../shared/constants'
-import { loginAttempts } from '../../db/schema'
-import { db } from '../lib/db'
-import { rateLimited } from '../lib/errors'
+import { LOGIN_MAX_ATTEMPTS, LOGIN_WINDOW_MINUTES } from '../../shared/constants.js'
+import { loginAttempts } from '../../db/schema.js'
+import { db } from '../lib/db.js'
+import { rateLimited } from '../lib/errors.js'
 
 function windowStart(): Date {
   return new Date(Date.now() - LOGIN_WINDOW_MINUTES * 60 * 1000)

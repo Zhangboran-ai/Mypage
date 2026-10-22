@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { contactMessageSchema } from './message'
+import { contactMessageSchema } from './message.js'
 
 describe('contactMessageSchema', () => {
   it('昵称与内容必填，邮箱可省略', () => {

@@ -1,5 +1,5 @@
 import type { InferSelectModel } from 'drizzle-orm'
-import type * as schema from '../../db/schema'
+import type * as schema from '../../db/schema.js'
 import type {
   Experience,
   MediaItem,
@@ -13,7 +13,7 @@ import type {
   SkillCategory,
   SocialLink,
   Tag,
-} from '../../shared'
+} from '../../shared/index.js'
 
 export type ProfileRow = InferSelectModel<typeof schema.profiles>
 export type SocialLinkRow = InferSelectModel<typeof schema.socialLinks>

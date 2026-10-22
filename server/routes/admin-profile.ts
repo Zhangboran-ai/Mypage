@@ -1,8 +1,8 @@
 import { Hono } from 'hono'
-import { experienceInputSchema, profileUpdateSchema, socialLinkInputSchema } from '../../shared'
-import type { AppEnv } from '../types'
-import { ok, okWithStatus } from '../lib/http'
-import { parseJson } from '../lib/validate'
+import { experienceInputSchema, profileUpdateSchema, socialLinkInputSchema } from '../../shared/index.js'
+import type { AppEnv } from '../types.js'
+import { ok, okWithStatus } from '../lib/http.js'
+import { parseJson } from '../lib/validate.js'
 import {
   createExperience,
   createSocialLink,
@@ -12,7 +12,7 @@ import {
   updateExperience,
   updateProfile,
   updateSocialLink,
-} from '../services/profile-service'
+} from '../services/profile-service.js'
 
 export const adminProfileRoutes = new Hono<AppEnv>()
 

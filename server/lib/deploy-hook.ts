@@ -1,4 +1,4 @@
-import { env } from '../env'
+import { env } from '../env.js'
 
 /**
  * 发布内容后触发一次静态重建（可选）。失败不影响主流程。

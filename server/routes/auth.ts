@@ -1,18 +1,18 @@
 import { Hono } from 'hono'
-import { changePasswordSchema, loginSchema } from '../../shared'
-import type { AppEnv } from '../types'
-import { getClientIp, getUserAgent, ok, setNoStore } from '../lib/http'
-import { unauthorized } from '../lib/errors'
+import { changePasswordSchema, loginSchema } from '../../shared/index.js'
+import type { AppEnv } from '../types.js'
+import { getClientIp, getUserAgent, ok, setNoStore } from '../lib/http.js'
+import { unauthorized } from '../lib/errors.js'
 import {
   clearSessionCookie,
   deleteSessionByToken,
   findSessionUser,
   getSessionToken,
   setSessionCookie,
-} from '../lib/session'
-import { parseJson } from '../lib/validate'
-import { changePassword, login } from '../services/auth-service'
-import { requireAuth } from '../middleware/auth'
+} from '../lib/session.js'
+import { parseJson } from '../lib/validate.js'
+import { changePassword, login } from '../services/auth-service.js'
+import { requireAuth } from '../middleware/auth.js'
 
 export const authRoutes = new Hono<AppEnv>()
 

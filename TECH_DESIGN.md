@@ -857,6 +857,7 @@ DATABASE_URL_TEST=
 - 构建期需要 `DATABASE_URL`（Preview 与 Production 各自配置）。数据库缺失或查询失败时，postbuild 按空内容继续生成静态壳、`robots.txt`、`sitemap.xml`（只含固定路由）与空 `rss.xml`，不影响部署；只有写盘失败才整体降级为纯 SPA，此时也会尽力写出兜底的 robots 与 sitemap。
 - **不要**在构建命令里跑数据库迁移。迁移在本地或 CI 中执行一次，避免并发构建重复写入。
 - 本地脚本（`server/dev.ts`、`db/seed.ts`、`scripts/postbuild.ts`、`drizzle.config.ts`）统一 `import './scripts/load-env'`，按 `.env.local` → `.env` 顺序加载；Vercel 上环境变量已注入，dotenv 不会覆盖已有值。
+- **服务端模块必须是 Node ESM 能直接解析的形式**：`api/`、`server/`、`shared/`、`db/` 之间的相对导入一律带显式扩展名（`./lib/db.js`、`../../shared/index.js`），目录导入写到 `index.js`。Vercel 把 `api/[...route].ts` 逐文件转译成 ESM 后由 Node 原生加载，Node 不会自动补扩展名；漏写会在函数加载阶段抛 `ERR_MODULE_NOT_FOUND`，所有 `/api/*` 变成 500，而本地 `vite` 与 `tsx` 会自动补全、无法暴露该问题。`src/` 走 Vite 别名与打包，不受此约束。
 
 ### 6.5 数据库迁移与初始化（部署前执行一次）
 

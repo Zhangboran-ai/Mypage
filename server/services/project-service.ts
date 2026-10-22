@@ -11,19 +11,19 @@ import type {
   ProjectListQuery,
   ReorderInput,
   TechTag,
-} from '../../shared'
+} from '../../shared/index.js'
 import {
   projectImages,
   projects,
   projectTechTags,
   techTags,
-} from '../../db/schema'
-import { db } from '../lib/db'
-import { badRequest, notFound, staleContent } from '../lib/errors'
-import { mapProject } from '../lib/mappers'
-import { buildPaginationMeta, getPagination } from '../lib/pagination'
-import { ensureUniqueSlug, fallbackSlug, normalizeSlug, toSlug } from '../lib/slug'
-import { projectVisibleCondition } from '../lib/visibility'
+} from '../../db/schema.js'
+import { db } from '../lib/db.js'
+import { badRequest, notFound, staleContent } from '../lib/errors.js'
+import { mapProject } from '../lib/mappers.js'
+import { buildPaginationMeta, getPagination } from '../lib/pagination.js'
+import { ensureUniqueSlug, fallbackSlug, normalizeSlug, toSlug } from '../lib/slug.js'
+import { projectVisibleCondition } from '../lib/visibility.js'
 
 const projectListColumns = {
   id: projects.id,

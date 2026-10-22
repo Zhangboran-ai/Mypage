@@ -1,9 +1,9 @@
 import { eq } from 'drizzle-orm'
-import type { SettingsInput, SiteSettings } from '../../shared'
-import { SITE_NAME_FALLBACK } from '../../shared/constants'
-import { siteSettings } from '../../db/schema'
-import { db } from '../lib/db'
-import { mapSettings } from '../lib/mappers'
+import type { SettingsInput, SiteSettings } from '../../shared/index.js'
+import { SITE_NAME_FALLBACK } from '../../shared/constants.js'
+import { siteSettings } from '../../db/schema.js'
+import { db } from '../lib/db.js'
+import { mapSettings } from '../lib/mappers.js'
 
 const DEFAULT_SETTINGS: SiteSettings = {
   siteName: SITE_NAME_FALLBACK,

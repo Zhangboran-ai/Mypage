@@ -1,8 +1,8 @@
 import { handleUpload, type HandleUploadBody } from '@vercel/blob/client'
 import { del } from '@vercel/blob'
-import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_BYTES } from '../../shared/constants'
-import { AppError, forbidden, unauthorized } from './errors'
-import { findSessionUser } from './session'
+import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_BYTES } from '../../shared/constants.js'
+import { AppError, forbidden, unauthorized } from './errors.js'
+import { findSessionUser } from './session.js'
 
 export function isBlobConfigured(): boolean {
   return Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID)

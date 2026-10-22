@@ -1,17 +1,17 @@
 import { and, desc, eq, ne } from 'drizzle-orm'
-import type { AuthUser, ChangePasswordInput, LoginInput, SessionInfo } from '../../shared'
-import { sessions, users } from '../../db/schema'
-import { db } from '../lib/db'
-import { badRequest, unauthorized } from '../lib/errors'
-import { mapSession } from '../lib/mappers'
-import { hashPassword, verifyPassword } from '../lib/password'
+import type { AuthUser, ChangePasswordInput, LoginInput, SessionInfo } from '../../shared/index.js'
+import { sessions, users } from '../../db/schema.js'
+import { db } from '../lib/db.js'
+import { badRequest, unauthorized } from '../lib/errors.js'
+import { mapSession } from '../lib/mappers.js'
+import { hashPassword, verifyPassword } from '../lib/password.js'
 import {
   createSession,
   deleteOtherSessions,
   hashSessionToken,
   type SessionUser,
-} from '../lib/session'
-import { assertLoginAllowed, clearLoginFailures, recordLoginAttempt } from '../middleware/rate-limit'
+} from '../lib/session.js'
+import { assertLoginAllowed, clearLoginFailures, recordLoginAttempt } from '../middleware/rate-limit.js'
 
 type LoginMeta = { ip: string | null; userAgent: string | null }
 

@@ -5,12 +5,12 @@ import type {
   SkillCategory,
   SkillCategoryInput,
   SkillInput,
-} from '../../shared'
-import { skillCategories, skills } from '../../db/schema'
-import { db } from '../lib/db'
-import { notFound } from '../lib/errors'
-import { mapSkill, mapSkillCategory } from '../lib/mappers'
-import { ensureUniqueSlug, normalizeSlug, toSlug } from '../lib/slug'
+} from '../../shared/index.js'
+import { skillCategories, skills } from '../../db/schema.js'
+import { db } from '../lib/db.js'
+import { notFound } from '../lib/errors.js'
+import { mapSkill, mapSkillCategory } from '../lib/mappers.js'
+import { ensureUniqueSlug, normalizeSlug, toSlug } from '../lib/slug.js'
 
 async function isCategorySlugTaken(slug: string, excludeId?: string): Promise<boolean> {
   const rows = await db

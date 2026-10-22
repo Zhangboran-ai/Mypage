@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
-import type { AppEnv } from '../types'
-import { ok } from '../lib/http'
-import { listSessions, revokeOtherSessions, revokeSession } from '../services/auth-service'
+import type { AppEnv } from '../types.js'
+import { ok } from '../lib/http.js'
+import { listSessions, revokeOtherSessions, revokeSession } from '../services/auth-service.js'
 
 export const adminAccountRoutes = new Hono<AppEnv>()
 

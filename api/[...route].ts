@@ -1,4 +1,4 @@
-import { app } from '../server/app'
+import { app } from '../server/app.js'
 
 // Vercel Node.js Runtime 的 Web 标准入口：所有 /api/* 请求进入同一个 Hono 实例
 export default {

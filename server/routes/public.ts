@@ -5,16 +5,16 @@ import {
   publicPostListQuerySchema,
   projectListQuerySchema,
   slugSchema,
-} from '../../shared'
-import type { AppEnv } from '../types'
-import { getClientIp, getUserAgent, ok, okWithStatus, setPublicCache } from '../lib/http'
-import { parseJson, parseQuery } from '../lib/validate'
-import { getPublicPostBySlug, listPublicPosts } from '../services/post-service'
-import { getPublicProjectBySlug, listPublicProjects } from '../services/project-service'
-import { getPublicProfile } from '../services/profile-service'
-import { getSettings } from '../services/setting-service'
-import { listTagsWithCounts } from '../services/tag-service'
-import { createMessage } from '../services/message-service'
+} from '../../shared/index.js'
+import type { AppEnv } from '../types.js'
+import { getClientIp, getUserAgent, ok, okWithStatus, setPublicCache } from '../lib/http.js'
+import { parseJson, parseQuery } from '../lib/validate.js'
+import { getPublicPostBySlug, listPublicPosts } from '../services/post-service.js'
+import { getPublicProjectBySlug, listPublicProjects } from '../services/project-service.js'
+import { getPublicProfile } from '../services/profile-service.js'
+import { getSettings } from '../services/setting-service.js'
+import { listTagsWithCounts } from '../services/tag-service.js'
+import { createMessage } from '../services/message-service.js'
 
 const slugParamSchema = z.object({ slug: slugSchema })
 

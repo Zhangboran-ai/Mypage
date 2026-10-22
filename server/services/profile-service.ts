@@ -7,17 +7,17 @@ import type {
   PublicProfile,
   SocialLink,
   SocialLinkInput,
-} from '../../shared'
-import { experiences, profiles, skillCategories, skills, socialLinks, users } from '../../db/schema'
-import { db } from '../lib/db'
-import { notFound } from '../lib/errors'
+} from '../../shared/index.js'
+import { experiences, profiles, skillCategories, skills, socialLinks, users } from '../../db/schema.js'
+import { db } from '../lib/db.js'
+import { notFound } from '../lib/errors.js'
 import {
   mapExperience,
   mapProfile,
   mapSkill,
   mapSkillCategory,
   mapSocialLink,
-} from '../lib/mappers'
+} from '../lib/mappers.js'
 
 export async function getPrimaryUser(): Promise<{ id: string; name: string } | null> {
   const rows = await db

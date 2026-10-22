@@ -1,4 +1,4 @@
-import { API_ERROR_CODES, type ApiErrorCode } from '../../shared/constants'
+import { API_ERROR_CODES, type ApiErrorCode } from '../../shared/constants.js'
 
 const STATUS_BY_CODE: Record<ApiErrorCode, number> = {
   VALIDATION_ERROR: 400,

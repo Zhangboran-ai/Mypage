@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { paginationQuerySchema } from './common'
+import { paginationQuerySchema } from './common.js'
 
 export const mediaConfirmSchema = z.object({
   filename: z.string().trim().min(1).max(255),

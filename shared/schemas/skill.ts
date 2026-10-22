@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { slugOptionalSchema } from './common'
+import { slugOptionalSchema } from './common.js'
 
 export const skillCategoryInputSchema = z.object({
   name: z.string().trim().min(1, '分类名不能为空').max(60),

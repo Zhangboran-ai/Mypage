@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { paginationQuerySchema } from './common'
+import { paginationQuerySchema } from './common.js'
 
 export const contactMessageSchema = z.object({
   name: z.string().trim().min(1, '请填写昵称').max(80, '昵称最长 80 个字符'),

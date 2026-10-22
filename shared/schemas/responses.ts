@@ -1,4 +1,4 @@
-import type { AuthUser } from './entities'
+import type { AuthUser } from './entities.js'
 
 export type PaginatedMeta = {
   page: number

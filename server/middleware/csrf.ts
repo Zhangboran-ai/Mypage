@@ -1,5 +1,5 @@
 import type { MiddlewareHandler } from 'hono'
-import { forbidden } from '../lib/errors'
+import { forbidden } from '../lib/errors.js'
 
 const SAFE_METHODS = new Set(['GET', 'HEAD', 'OPTIONS'])
 

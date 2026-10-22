@@ -4,10 +4,10 @@ import {
   projectInputSchema,
   projectListQuerySchema,
   reorderSchema,
-} from '../../shared'
-import type { AppEnv } from '../types'
-import { ok, okWithStatus } from '../lib/http'
-import { parseJson, parseQuery } from '../lib/validate'
+} from '../../shared/index.js'
+import type { AppEnv } from '../types.js'
+import { ok, okWithStatus } from '../lib/http.js'
+import { parseJson, parseQuery } from '../lib/validate.js'
 import {
   createProject,
   deleteProject,
@@ -17,8 +17,8 @@ import {
   listTechTags,
   reorderProjects,
   updateProject,
-} from '../services/project-service'
-import { triggerDeployHook } from '../lib/deploy-hook'
+} from '../services/project-service.js'
+import { triggerDeployHook } from '../lib/deploy-hook.js'
 
 export const adminProjectRoutes = new Hono<AppEnv>()
 

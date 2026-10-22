@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { postInputSchema, publicPostListQuerySchema } from './post'
+import { postInputSchema, publicPostListQuerySchema } from './post.js'
 
 const validPost = {
   title: '你好，星屿',

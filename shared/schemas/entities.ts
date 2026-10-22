@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { contentStatusSchema } from './post'
+import { contentStatusSchema } from './post.js'
 
 const dateString = z.string()
 const nullableDateString = dateString.nullable()

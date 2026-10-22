@@ -1,9 +1,9 @@
 import { Hono } from 'hono'
-import { settingsInputSchema } from '../../shared'
-import type { AppEnv } from '../types'
-import { ok } from '../lib/http'
-import { parseJson } from '../lib/validate'
-import { getSettings, updateSettings } from '../services/setting-service'
+import { settingsInputSchema } from '../../shared/index.js'
+import type { AppEnv } from '../types.js'
+import { ok } from '../lib/http.js'
+import { parseJson } from '../lib/validate.js'
+import { getSettings, updateSettings } from '../services/setting-service.js'
 
 export const adminSettingRoutes = new Hono<AppEnv>()
 

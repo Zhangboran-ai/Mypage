@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { isoDateTimeSchema } from './common'
+import { isoDateTimeSchema } from './common.js'
 
 const nullableUrlSchema = z.string().url('请输入合法链接').nullable().optional()
 

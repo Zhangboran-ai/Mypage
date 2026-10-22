@@ -1,18 +1,18 @@
 import { Hono } from 'hono'
 import type { HandleUploadBody } from '@vercel/blob/client'
-import { mediaConfirmSchema, mediaListQuerySchema, mediaUpdateSchema } from '../../shared'
-import type { AppEnv } from '../types'
-import { badRequest, unauthorized } from '../lib/errors'
-import { getSessionToken } from '../lib/session'
-import { ok, okWithStatus } from '../lib/http'
-import { parseJson, parseQuery } from '../lib/validate'
-import { handleClientUpload } from '../lib/storage'
+import { mediaConfirmSchema, mediaListQuerySchema, mediaUpdateSchema } from '../../shared/index.js'
+import type { AppEnv } from '../types.js'
+import { badRequest, unauthorized } from '../lib/errors.js'
+import { getSessionToken } from '../lib/session.js'
+import { ok, okWithStatus } from '../lib/http.js'
+import { parseJson, parseQuery } from '../lib/validate.js'
+import { handleClientUpload } from '../lib/storage.js'
 import {
   createMedia,
   deleteMedia,
   listMedia,
   updateMediaAlt,
-} from '../services/media-service'
+} from '../services/media-service.js'
 
 export const adminMediaRoutes = new Hono<AppEnv>()
 

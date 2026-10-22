@@ -10,16 +10,16 @@ import type {
   PostListQuery,
   PublicPostListQuery,
   Tag,
-} from '../../shared'
-import { postTags, posts, tags } from '../../db/schema'
-import { db } from '../lib/db'
-import { badRequest, notFound, staleContent } from '../lib/errors'
-import { mapPost, mapTag } from '../lib/mappers'
-import { buildPaginationMeta, getPagination } from '../lib/pagination'
-import { toReadingTime } from '../lib/reading-time'
-import { ensureUniqueSlug, normalizeSlug, toSlug } from '../lib/slug'
-import { postVisibleCondition } from '../lib/visibility'
-import { assertTagsExist } from './tag-service'
+} from '../../shared/index.js'
+import { postTags, posts, tags } from '../../db/schema.js'
+import { db } from '../lib/db.js'
+import { badRequest, notFound, staleContent } from '../lib/errors.js'
+import { mapPost, mapTag } from '../lib/mappers.js'
+import { buildPaginationMeta, getPagination } from '../lib/pagination.js'
+import { toReadingTime } from '../lib/reading-time.js'
+import { ensureUniqueSlug, normalizeSlug, toSlug } from '../lib/slug.js'
+import { postVisibleCondition } from '../lib/visibility.js'
+import { assertTagsExist } from './tag-service.js'
 
 const postListColumns = {
   id: posts.id,

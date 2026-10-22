@@ -1,1 +1,1 @@
-export { ensureUniqueSlug, fallbackSlug, normalizeSlug, toSlug } from '../../shared/slug'
+export { ensureUniqueSlug, fallbackSlug, normalizeSlug, toSlug } from '../../shared/slug.js'

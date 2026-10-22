@@ -290,13 +290,14 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
 ### 5.5 工程习惯
 
-22. **路径别名**：`src/` 用 `@/`、`@shared/`；`server/` 与 `api/` 只能用相对路径。
+22. **路径别名**：`src/` 用 `@/`、`@shared/`；`server/` 与 `api/` 只能用相对路径，且必须带显式 `.js` 扩展名（目录导入写到 `index.js`），见第 29 条。
 23. **`api/` 目录**：只保留 `[...route].ts`，新增文件会变成新函数。
 24. **环境变量**：新增变量必须同时更新 `.env.example`、`TECH_DESIGN.md` 与 Vercel 配置说明；`server/env.ts` 用 Zod 校验，缺失即启动失败。
 25. **迁移**：只在本地/CI 执行；生产用 `DATABASE_URL_UNPOOLED`；禁止在 Vercel 构建里迁移。
 26. **构建降级**：`scripts/postbuild.ts` 必须捕获所有异常并以 0 退出，不能让数据库问题阻断部署。
 27. **依赖方向**：`src` 不直接 import `server`；`server` 不 import `src`；共享内容只放 `shared/`。
 28. **不确定就问**：涉及删除数据、修改鉴权、调整数据结构、引入新服务时，先向用户确认。
+29. **ESM 扩展名**：`api/`、`server/`、`shared/`、`db/` 之间的相对导入必须带 `.js`（如 `import { db } from './lib/db.js'`、`from '../../shared/index.js'`）。Vercel 把函数逐文件转译成 ESM 后交给 Node 原生运行，Node 不会自动补扩展名，漏写会以 `ERR_MODULE_NOT_FOUND` 在函数加载阶段失败；本地 `vite` 与 `tsx` 会自动补全，测不出来。
 
 ---
 

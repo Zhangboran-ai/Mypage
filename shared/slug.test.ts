@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { ensureUniqueSlug, fallbackSlug, normalizeSlug, toSlug } from './slug'
+import { ensureUniqueSlug, fallbackSlug, normalizeSlug, toSlug } from './slug.js'
 
 describe('toSlug', () => {
   it('把英文标题转成短横线形式', () => {

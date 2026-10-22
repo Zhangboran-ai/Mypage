@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { app } from './app'
+import { app } from './app.js'
 
 describe('管理接口鉴权', () => {
   it('未登录访问后台接口返回 401', async () => {

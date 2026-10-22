@@ -1,6 +1,6 @@
 import type { Context } from 'hono'
 import type { z } from 'zod'
-import { badRequest } from './errors'
+import { badRequest } from './errors.js'
 
 export async function parseJson<T>(c: Context, schema: z.ZodType<T>): Promise<T> {
   let body: unknown

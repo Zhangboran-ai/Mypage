@@ -1,4 +1,4 @@
-import { READING_WORDS_PER_MINUTE } from '../../shared/constants'
+import { READING_WORDS_PER_MINUTE } from '../../shared/constants.js'
 
 export function countWords(content: string): number {
   const text = content

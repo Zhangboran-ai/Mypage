@@ -1,10 +1,10 @@
 import { and, asc, eq, inArray, isNull, or, sql } from 'drizzle-orm'
-import type { Tag, TagWithCount } from '../../shared'
-import { postTags, posts, tags } from '../../db/schema'
-import { db } from '../lib/db'
-import { conflict, notFound } from '../lib/errors'
-import { mapTag } from '../lib/mappers'
-import { ensureUniqueSlug, normalizeSlug, toSlug } from '../lib/slug'
+import type { Tag, TagWithCount } from '../../shared/index.js'
+import { postTags, posts, tags } from '../../db/schema.js'
+import { db } from '../lib/db.js'
+import { conflict, notFound } from '../lib/errors.js'
+import { mapTag } from '../lib/mappers.js'
+import { ensureUniqueSlug, normalizeSlug, toSlug } from '../lib/slug.js'
 
 async function isTagSlugTaken(slug: string, excludeId?: string): Promise<boolean> {
   const rows = await db.select({ id: tags.id }).from(tags).where(eq(tags.slug, slug)).limit(2)

@@ -1,4 +1,4 @@
-import type { AuthUser } from '../shared'
+import type { AuthUser } from '../shared/index.js'
 
 export type AppEnv = {
   Variables: {

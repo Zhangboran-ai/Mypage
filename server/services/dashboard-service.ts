@@ -1,8 +1,8 @@
 import { and, eq, isNull, sql } from 'drizzle-orm'
-import type { Dashboard } from '../../shared'
-import { contactMessages, posts, projects, skills } from '../../db/schema'
-import { db } from '../lib/db'
-import { listRecentAdminPosts } from './post-service'
+import type { Dashboard } from '../../shared/index.js'
+import { contactMessages, posts, projects, skills } from '../../db/schema.js'
+import { db } from '../lib/db.js'
+import { listRecentAdminPosts } from './post-service.js'
 
 export async function getDashboard(): Promise<Dashboard> {
   const [

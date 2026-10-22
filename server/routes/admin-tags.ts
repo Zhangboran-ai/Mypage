@@ -1,15 +1,15 @@
 import { Hono } from 'hono'
-import { tagInputSchema } from '../../shared'
-import type { AppEnv } from '../types'
-import { ok, okWithStatus } from '../lib/http'
-import { parseJson } from '../lib/validate'
+import { tagInputSchema } from '../../shared/index.js'
+import type { AppEnv } from '../types.js'
+import { ok, okWithStatus } from '../lib/http.js'
+import { parseJson } from '../lib/validate.js'
 import {
   createTag,
   deleteTag,
   listAllTags,
   listTagsWithCounts,
   updateTag,
-} from '../services/tag-service'
+} from '../services/tag-service.js'
 
 export const adminTagRoutes = new Hono<AppEnv>()
 

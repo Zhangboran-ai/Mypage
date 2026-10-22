@@ -1,6 +1,6 @@
 import { and, eq, isNull, or, sql } from 'drizzle-orm'
 import type { SQL } from 'drizzle-orm'
-import { posts, projects } from '../../db/schema'
+import { posts, projects } from '../../db/schema.js'
 
 /**
  * 公开可见性：未删除，且已发布；或者定时发布且到达数据库当前时间。

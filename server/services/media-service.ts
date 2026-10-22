@@ -4,13 +4,13 @@ import type {
   MediaItem,
   MediaListQuery,
   Paginated,
-} from '../../shared'
-import { media, posts, profiles, projectImages, projects, siteSettings } from '../../db/schema'
-import { db } from '../lib/db'
-import { conflict, notFound } from '../lib/errors'
-import { mapMedia } from '../lib/mappers'
-import { buildPaginationMeta, getPagination } from '../lib/pagination'
-import { deleteBlob } from '../lib/storage'
+} from '../../shared/index.js'
+import { media, posts, profiles, projectImages, projects, siteSettings } from '../../db/schema.js'
+import { db } from '../lib/db.js'
+import { conflict, notFound } from '../lib/errors.js'
+import { mapMedia } from '../lib/mappers.js'
+import { buildPaginationMeta, getPagination } from '../lib/pagination.js'
+import { deleteBlob } from '../lib/storage.js'
 
 export async function listMedia(query: MediaListQuery): Promise<Paginated<MediaItem>> {
   const conditions = query.type ? [ilike(media.mimeType, `${query.type}%`)] : []

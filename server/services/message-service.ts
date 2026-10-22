@@ -4,12 +4,12 @@ import type {
   Message,
   MessageListQuery,
   Paginated,
-} from '../../shared'
-import { contactMessages } from '../../db/schema'
-import { db } from '../lib/db'
-import { notFound, rateLimited } from '../lib/errors'
-import { mapMessage } from '../lib/mappers'
-import { buildPaginationMeta, getPagination } from '../lib/pagination'
+} from '../../shared/index.js'
+import { contactMessages } from '../../db/schema.js'
+import { db } from '../lib/db.js'
+import { notFound, rateLimited } from '../lib/errors.js'
+import { mapMessage } from '../lib/mappers.js'
+import { buildPaginationMeta, getPagination } from '../lib/pagination.js'
 
 const MESSAGE_WINDOW_MINUTES = 10
 const MESSAGE_LIMIT_PER_WINDOW = 3

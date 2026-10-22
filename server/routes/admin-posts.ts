@@ -1,9 +1,9 @@
 import { Hono } from 'hono'
-import { postInputSchema, postListQuerySchema, postStatusActionSchema } from '../../shared'
-import type { AppEnv } from '../types'
-import { ok, okWithStatus } from '../lib/http'
-import { parseJson, parseQuery } from '../lib/validate'
-import { triggerDeployHook } from '../lib/deploy-hook'
+import { postInputSchema, postListQuerySchema, postStatusActionSchema } from '../../shared/index.js'
+import type { AppEnv } from '../types.js'
+import { ok, okWithStatus } from '../lib/http.js'
+import { parseJson, parseQuery } from '../lib/validate.js'
+import { triggerDeployHook } from '../lib/deploy-hook.js'
 import {
   createPost,
   deletePost,
@@ -12,7 +12,7 @@ import {
   publishPost,
   unpublishPost,
   updatePost,
-} from '../services/post-service'
+} from '../services/post-service.js'
 
 export const adminPostRoutes = new Hono<AppEnv>()
 
