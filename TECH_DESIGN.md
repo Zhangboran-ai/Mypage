@@ -31,7 +31,7 @@
 | Markdown 编辑 | **textarea + 工具栏**（可选 CodeMirror 6） | 单人使用，避免重型编辑器 |
 | 表单 | **React Hook Form + Zod** | 与后端共享 schema |
 | API 框架 | **Hono 4** | 基于 Web 标准，体积极小（~20KB），单文件即可承载全部路由；Vercel 一等支持，冷启动低 |
-| 函数入口 | **`api/[...route].ts`（Vercel Node.js Function）** | 所有 `/api/*` 收敛为一个函数，符合 Vercel「少函数、共享实例」的建议 |
+| 函数入口 | **`api/index.ts`（Vercel Node.js Function）** | 所有 `/api/*` 收敛为一个函数，符合 Vercel「少函数、共享实例」的建议；文件必须叫 `index`，动态路由文件名不支持多级路径 |
 | ORM | **Drizzle ORM + `postgres.js`** | 无代码生成二进制、体积极小、支持事务；Serverless 冷启动远低于 Prisma |
 | 数据库 | **Neon Postgres 16**（Vercel Marketplace） | Serverless Postgres，支持分支；与 Vercel 一键集成并自动注入环境变量 |
 | 文件存储 | **Vercel Blob** | 无持久磁盘场景的唯一合理选择；浏览器直传，绕过 4.5MB 请求体限制 |
@@ -78,7 +78,7 @@ flowchart LR
 
     subgraph V[Vercel 项目（同一域名）]
         CDN[静态资源 CDN<br/>dist/*]
-        FN[Serverless Function<br/>api/[...route].ts<br/>Hono]
+        FN[Serverless Function<br/>api/index.ts<br/>Hono]
     end
 
     NEON[(Neon Postgres)]
@@ -136,7 +136,7 @@ flowchart LR
 ```
 Mypage/
 ├─ api/
-│  └─ [...route].ts              # 唯一的 Vercel Function 入口（/api/*）
+│  └─ index.ts                   # 唯一的 Vercel Function 入口（/api/*，配合 vercel.json 重写）
 │
 ├─ server/                       # 后端业务代码（不会各自变成函数）
 │  ├─ app.ts                     # Hono 实例 + basePath('/api') + 中间件挂载
@@ -690,18 +690,20 @@ type Paginated<T> = {
 ### 6.1 单项目如何同时跑前端与 API
 
 - Vercel 识别为 **Vite 框架**：执行 `pnpm build`，发布 `dist/` 静态文件。
-- 根目录 `api/[...route].ts` 被识别为 **Vercel Function**：所有 `/api/*` 请求进入同一个 Hono 实例。
+- 根目录 `api/index.ts` 被识别为 **Vercel Function**：所有 `/api/*` 请求进入同一个 Hono 实例。
 - 两者同域名、同一次部署，无需第二个项目、无需 CORS。
+- **`api/` 目录里的动态路由文件（`[...route].ts`）对多级路径无效**：Vercel 只把它匹配到单层（`/api/foo`），`/api/public/posts` 会被平台直接返回 `NOT_FOUND` 页面。因此入口文件名固定为 `index.ts`，由 `vercel.json` 的 `rewrites` 把 `/api/(.*)` 重写到 `/api?__path=$1`，函数里再用 `restoreOriginalUrl()` 还原成 `/api/...`。
 
 函数入口：
 
 ```ts
-// api/[...route].ts
-import { app } from '../server/app'
+// api/index.ts
+import { app } from '../server/app.js'
+import { restoreOriginalUrl } from '../server/lib/vercel-url.js'
 
 // Vercel Node.js Runtime 支持 Web 标准 fetch 签名
 export default {
-  fetch: (request: Request) => app.fetch(request),
+  fetch: (request: Request) => app.fetch(restoreOriginalUrl(request)),
 }
 ```
 
@@ -750,6 +752,7 @@ serve({ fetch: app.fetch, port: 3001 }, (info) => {
   "buildCommand": "pnpm build",
   "outputDirectory": "dist",
   "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api?__path=$1" },
     { "source": "/:path((?!api/).*)", "destination": "/index.html" }
   ],
   "headers": [
@@ -857,7 +860,8 @@ DATABASE_URL_TEST=
 - 构建期需要 `DATABASE_URL`（Preview 与 Production 各自配置）。数据库缺失或查询失败时，postbuild 按空内容继续生成静态壳、`robots.txt`、`sitemap.xml`（只含固定路由）与空 `rss.xml`，不影响部署；只有写盘失败才整体降级为纯 SPA，此时也会尽力写出兜底的 robots 与 sitemap。
 - **不要**在构建命令里跑数据库迁移。迁移在本地或 CI 中执行一次，避免并发构建重复写入。
 - 本地脚本（`server/dev.ts`、`db/seed.ts`、`scripts/postbuild.ts`、`drizzle.config.ts`）统一 `import './scripts/load-env'`，按 `.env.local` → `.env` 顺序加载；Vercel 上环境变量已注入，dotenv 不会覆盖已有值。
-- **服务端模块必须是 Node ESM 能直接解析的形式**：`api/`、`server/`、`shared/`、`db/` 之间的相对导入一律带显式扩展名（`./lib/db.js`、`../../shared/index.js`），目录导入写到 `index.js`。Vercel 把 `api/[...route].ts` 逐文件转译成 ESM 后由 Node 原生加载，Node 不会自动补扩展名；漏写会在函数加载阶段抛 `ERR_MODULE_NOT_FOUND`，所有 `/api/*` 变成 500，而本地 `vite` 与 `tsx` 会自动补全、无法暴露该问题。`src/` 走 Vite 别名与打包，不受此约束。
+- **服务端模块必须是 Node ESM 能直接解析的形式**：`api/`、`server/`、`shared/`、`db/` 之间的相对导入一律带显式扩展名（`./lib/db.js`、`../../shared/index.js`），目录导入写到 `index.js`。Vercel 把 `api/index.ts` 逐文件转译成 ESM 后由 Node 原生加载，Node 不会自动补扩展名；漏写会在函数加载阶段抛 `ERR_MODULE_NOT_FOUND`，所有 `/api/*` 变成 500，而本地 `vite` 与 `tsx` 会自动补全、无法暴露该问题。`src/` 走 Vite 别名与打包，不受此约束。
+- **`api/` 下的动态路由文件名不支持多级路径**：`api/[...route].ts` 只匹配 `/api/foo`，`/api/public/posts` 会得到 Vercel 的 `NOT_FOUND` 页面。入口必须是 `api/index.ts`，多级路径由 `vercel.json` 的 `{"source": "/api/(.*)", "destination": "/api?__path=$1"}` 重写进来，再由 `server/lib/vercel-url.ts` 还原原始 URL。新增接口不需要改这里，只要保证不往 `api/` 里加文件。
 
 ### 6.5 数据库迁移与初始化（部署前执行一次）
 

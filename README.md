@@ -3,7 +3,7 @@
 深色星空主题的个人展示网站：个人介绍、技能、项目作品集、博客，以及单人使用的后台 CMS。前端与 API 部署在同一个 Vercel 项目，同域名、无 CORS。
 
 - 前端：React 19 + TypeScript 5 + Vite 7 + React Router 7 + TanStack Query + Tailwind CSS 4
-- 后端：Hono 4，入口 `api/[...route].ts`（Vercel Node.js Function）
+- 后端：Hono 4，入口 `api/index.ts`（Vercel Node.js Function）
 - 数据：Neon Postgres 16 + Drizzle ORM + `postgres.js`
 - 媒体：Vercel Blob（浏览器压缩后直传，函数只签发令牌）
 - 文档：[PRD.md](./PRD.md)（需求）、[TECH_DESIGN.md](./TECH_DESIGN.md)（方案）、[AGENTS.md](./AGENTS.md)（开发规范）
@@ -105,7 +105,7 @@ seed 幂等：管理员已存在时跳过创建，不会覆盖密码。
 ## 目录速查
 
 ```
-api/[...route].ts      唯一 Vercel Function 入口
+api/index.ts           唯一 Vercel Function 入口（多级路径由 vercel.json 重写进来）
 server/                Hono 应用、路由、服务、中间件、工具
 db/                    Drizzle schema、迁移、seed
 shared/                前后端共享的 Zod schema 与 DTO

@@ -7,7 +7,7 @@
 ## 1. 项目概述
 
 - **是什么**：一个部署在 Vercel 上的个人展示网站，包含个人介绍、技能展示、项目作品集、博客，以及单人使用的后台管理系统（CMS）。
-- **技术栈**：单包 pnpm 项目（不使用 workspace）。前端 React 19 + TypeScript 5 + Vite 7 + React Router 7 + TanStack Query + Tailwind CSS 4；后端 Hono 4 运行在 Vercel Node.js Function（`api/[...route].ts`）；数据库 Neon Postgres 16 + Drizzle ORM + `postgres.js`；图片存 Vercel Blob。
+- **技术栈**：单包 pnpm 项目（不使用 workspace）。前端 React 19 + TypeScript 5 + Vite 7 + React Router 7 + TanStack Query + Tailwind CSS 4；后端 Hono 4 运行在 Vercel Node.js Function（`api/index.ts`）；数据库 Neon Postgres 16 + Drizzle ORM + `postgres.js`；图片存 Vercel Blob。
 - **部署形态**：一个 Vercel 项目同时承载静态前端与 `/api/*` 函数，同域名、无 CORS。数据库与 Blob 通过 Vercel Marketplace 创建并注入环境变量。
 - **目标用户**：访客（看简介/作品/文章）与唯一管理员（在后台维护内容）。
 - **视觉基调**：深色主题 + 可降级的星空背景，简洁现代，全端适配。后台关闭星空动画，强调信息密度与效率。
@@ -38,7 +38,7 @@ vercel env pull .env.local   # 拉取 Vercel 环境变量
 
 | 路径 | 职责 |
 | --- | --- |
-| `api/[...route].ts` | **唯一** Vercel Function 入口，只做转发，不写业务 |
+| `api/index.ts` | **唯一** Vercel Function 入口，只做转发与 URL 还原，不写业务 |
 | `server/app.ts` | Hono 实例、`basePath('/api')`、中间件与路由挂载 |
 | `server/routes/` | HTTP 层：校验入参、调用 service、组装响应 |
 | `server/services/` | 业务规则与数据库读写，不接触 Request/Response |
@@ -81,7 +81,7 @@ vercel env pull .env.local   # 拉取 Vercel 环境变量
 | `server/routes` | 参数校验、鉴权、调用 service、组装响应 | 复杂查询、业务规则、直接操作 `db` |
 | `server/services` | 业务规则、Drizzle 查询、事务 | 读取 `request`/`reply`、判断 Cookie |
 | `shared/` | Zod schema、DTO 类型、常量 | 依赖 React / Hono / Drizzle / Node API |
-| `api/[...route].ts` | 导出 `fetch` 处理器 | 写任何路由或业务代码 |
+| `api/index.ts` | 导出 `fetch` 处理器、还原被重写的 URL | 写任何路由或业务代码 |
 
 ### 2.3 前端规范
 
@@ -291,13 +291,14 @@ export function ProjectCard({ project }: ProjectCardProps) {
 ### 5.5 工程习惯
 
 22. **路径别名**：`src/` 用 `@/`、`@shared/`；`server/` 与 `api/` 只能用相对路径，且必须带显式 `.js` 扩展名（目录导入写到 `index.js`），见第 29 条。
-23. **`api/` 目录**：只保留 `[...route].ts`，新增文件会变成新函数。
+23. **`api/` 目录**：只保留 `index.ts`，新增文件会变成新函数。
 24. **环境变量**：新增变量必须同时更新 `.env.example`、`TECH_DESIGN.md` 与 Vercel 配置说明；`server/env.ts` 用 Zod 校验，缺失即启动失败。
 25. **迁移**：只在本地/CI 执行；生产用 `DATABASE_URL_UNPOOLED`；禁止在 Vercel 构建里迁移。
 26. **构建降级**：`scripts/postbuild.ts` 必须捕获所有异常并以 0 退出，不能让数据库问题阻断部署。
 27. **依赖方向**：`src` 不直接 import `server`；`server` 不 import `src`；共享内容只放 `shared/`。
 28. **不确定就问**：涉及删除数据、修改鉴权、调整数据结构、引入新服务时，先向用户确认。
 29. **ESM 扩展名**：`api/`、`server/`、`shared/`、`db/` 之间的相对导入必须带 `.js`（如 `import { db } from './lib/db.js'`、`from '../../shared/index.js'`）。Vercel 把函数逐文件转译成 ESM 后交给 Node 原生运行，Node 不会自动补扩展名，漏写会以 `ERR_MODULE_NOT_FOUND` 在函数加载阶段失败；本地 `vite` 与 `tsx` 会自动补全，测不出来。
+30. **`api/` 只允许单层路由**：非 Next.js 项目里 `api/[...route].ts` 只匹配 `/api/foo`，`/api/public/posts` 会被平台直接 404。入口固定为 `api/index.ts`，多级路径由 `vercel.json` 的 `/api/(.*)` → `/api?__path=$1` 重写，再由 `server/lib/vercel-url.ts` 还原。新增接口只改 `server/routes/`，不要往 `api/` 加文件。
 
 ---
 
